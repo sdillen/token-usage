@@ -1,0 +1,10 @@
+{
+  "unit": "USD per million tokens",
+  "models": [
+    {"match": "claude-opus-5-5",   "input": 4.00, "output": 20.00, "cache_read": 0.20},
+    {"match": "claude-sonnet-5",   "input": 2.00, "output": 10.00, "cache_read": 0.20},
+    {"match": "claude-sonnet-5-5", "input": 2.00, "output": 10.00, "cache_read": 0.10},
+    {"match": "claude-haiku-5-5",  "input": 0.10, "output": 0.50,  "cache_read": 0.01},
+    {"match": "claude-haiku-4-5",  "input": 1.00, "output": 5.00,  "cache_read": 0.10}
+  ]
+}
