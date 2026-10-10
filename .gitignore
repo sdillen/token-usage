@@ -12,3 +12,8 @@ devenv.local.yaml
 !devenv.yaml
 !devenv.lock
 !.envrc
+
+# Go
+/bin/
+/dist/
+coverage.out
