@@ -6,8 +6,8 @@ devenv.local.yaml
 # direnv
 .direnv
 
-# Ausnahmen von der globalen Ignore-Datei (~/.config/git/ignore):
-# devenv- und direnv-Konfiguration soll versioniert werden
+# Exceptions to the global ignore file (~/.config/git/ignore):
+# keep the devenv and direnv configuration under version control
 !devenv.nix
 !devenv.yaml
 !devenv.lock

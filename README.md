@@ -48,6 +48,12 @@ The data refreshes itself every 30 seconds. The Claude limits are queried at
 most once a minute and cached in `$XDG_CACHE_HOME/token-usage`, because
 Anthropic rate-limits the endpoint.
 
+The limits come from `https://api.anthropic.com/api/oauth/usage`, which is an
+undocumented endpoint that Claude Code itself uses. It is not part of a public
+API, so it may change or stop working without notice. The tool reads the OAuth
+token that Claude Code stores locally and sends it only to that endpoint.
+This project is not affiliated with Anthropic.
+
 ### Options
 
 | Flag           | Default                                  | Description               |

@@ -4,11 +4,11 @@
   # https://devenv.sh/languages/go/
   languages.go = {
     enable = true;
-    # Optional eine bestimmte Go-Version festlegen, z. B.:
+    # Optionally pin a specific Go version, e.g.:
     # package = pkgs.go_1_26;
   };
 
-  # Zusätzliche Werkzeuge für die Entwicklung
+  # Additional development tools
   packages = [
     pkgs.golangci-lint
   ];
