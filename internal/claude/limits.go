@@ -44,13 +44,18 @@ type credentials struct {
 // the Keychain entry name does not carry the dir, so a custom dir would
 // otherwise pick up another account's token.
 func readCredentials(dir string) (credentials, error) {
+	home, _ := os.UserHomeDir()
+	return loadCredentials(dir, home, runtime.GOOS, keychainCredentials)
+}
+
+// loadCredentials is readCredentials with the platform and Keychain injected.
+func loadCredentials(dir, home, goos string, keychain func() ([]byte, error)) (credentials, error) {
 	data, err := os.ReadFile(filepath.Join(dir, ".credentials.json"))
 	if err != nil {
-		home, _ := os.UserHomeDir()
-		if runtime.GOOS != "darwin" || dir != filepath.Join(home, ".claude") {
+		if goos != "darwin" || dir != filepath.Join(home, ".claude") {
 			return credentials{}, err
 		}
-		if data, err = keychainCredentials(); err != nil {
+		if data, err = keychain(); err != nil {
 			return credentials{}, err
 		}
 	}
@@ -58,7 +63,7 @@ func readCredentials(dir string) (credentials, error) {
 }
 
 // keychainCredentials returns the JSON Claude Code stores in the macOS Keychain.
-var keychainCredentials = func() ([]byte, error) {
+func keychainCredentials() ([]byte, error) {
 	return exec.Command("security", "find-generic-password", "-s", "Claude Code-credentials", "-w").Output()
 }
 
