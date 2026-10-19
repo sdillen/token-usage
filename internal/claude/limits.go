@@ -9,7 +9,9 @@ import (
 	"math"
 	"net/http"
 	"os"
+	"os/exec"
 	"path/filepath"
+	"runtime"
 	"strconv"
 	"strings"
 	"time"
@@ -37,11 +39,30 @@ type credentials struct {
 	RateLimitTier    string
 }
 
+// readCredentials prefers the credentials file. On macOS Claude Code keeps them
+// in the Keychain instead, which is consulted only for the default config dir:
+// the Keychain entry name does not carry the dir, so a custom dir would
+// otherwise pick up another account's token.
 func readCredentials(dir string) (credentials, error) {
 	data, err := os.ReadFile(filepath.Join(dir, ".credentials.json"))
 	if err != nil {
-		return credentials{}, err
+		home, _ := os.UserHomeDir()
+		if runtime.GOOS != "darwin" || dir != filepath.Join(home, ".claude") {
+			return credentials{}, err
+		}
+		if data, err = keychainCredentials(); err != nil {
+			return credentials{}, err
+		}
 	}
+	return parseCredentials(data)
+}
+
+// keychainCredentials returns the JSON Claude Code stores in the macOS Keychain.
+var keychainCredentials = func() ([]byte, error) {
+	return exec.Command("security", "find-generic-password", "-s", "Claude Code-credentials", "-w").Output()
+}
+
+func parseCredentials(data []byte) (credentials, error) {
 	var file struct {
 		OAuth *struct {
 			AccessToken      string `json:"accessToken"`
