@@ -64,7 +64,7 @@ func loadCredentials(dir, home, goos string, keychain func() ([]byte, error)) (c
 
 // keychainCredentials returns the JSON Claude Code stores in the macOS Keychain.
 func keychainCredentials() ([]byte, error) {
-	return exec.Command("security", "find-generic-password", "-s", "Claude Code-credentials", "-w").Output()
+	return exec.CommandContext(context.Background(), "security", "find-generic-password", "-s", "Claude Code-credentials", "-w").Output()
 }
 
 func parseCredentials(data []byte) (credentials, error) {
