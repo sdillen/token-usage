@@ -18,6 +18,8 @@ func TestDefaultTable(t *testing.T) {
 	for model, want := range map[string]Price{
 		"claude-opus-5-5":           {4, 20, 0.2, 5},
 		"claude-opus-5-5-20260101":  {4, 20, 0.2, 5}, // snapshot matches by prefix
+		"claude-opus-5":             {5, 25, 0.5, 6.25},
+		"claude-opus-5-20260101":    {5, 25, 0.5, 6.25},
 		"claude-sonnet-5-5":         {2, 10, 0.1, 2.5},
 		"claude-haiku-5-5":          {0.1, 0.5, 0.01, 0.125},
 		"claude-haiku-4-5":          {1, 5, 0.1, 1.25},
